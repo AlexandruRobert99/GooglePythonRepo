@@ -2,28 +2,38 @@ string_CNP = list(input("Introdu CNP-ul pe care doresti sa il verifici:"))
 CNP = [] #initializez o lista in care o sa introduc pe rand toate elementele din input
          #dupa ce au fost convertite ca numere, folosind for-ul de mai jos
 
+#incercam sa prindem eroarea daca se introduce altceva in afara de cifre
 try:
     #convertim elementele listei din string in number
     for i in string_CNP:
         n = int(i)
         CNP.append(n)
 
+    #verific daca CNP-ul incepe cu 0
     if CNP[0] != 0:
+
+        #verific daca CNP-ul are fix 13 cifre
         if len(CNP) == 13:
             LL = CNP[3:5]#lista formata din cele doua cifre care alcatuiesc codul lunii (LL)
             LL = int(str(LL[0]) + str(LL[1]))#convertesc lista intr-un number
+
             #verific codul lunii
             if LL <= 12:
                 ZZ = CNP[5:7]#lista formata din cele doua cifre care alcatuiesc codul zilei (ZZ)
                 ZZ = int(str(ZZ[0]) + str(ZZ[1]))#convertesc lista intr-un number
+
                 #verific codul zilei
                 if ZZ <= 31:
                     JJ = CNP[7:9]  # lista formata din cele doua cifre care alcatuiesc codul judetului (JJ)
                     JJ = int(str(JJ[0]) + str(JJ[1]))  # convertesc lista intr-un number
+
                     #verific codul judetului
                     if JJ <= 52:
+
                         #verific cifra de control
-                        C = 2 * CNP[0] + 7 * CNP[1] + 9 * CNP[2] + 1 * CNP[3] + 4 * CNP[4] + 6 * CNP[5] + 3 * CNP[6] + 5 * CNP[7] + 8 * CNP[8] + 2 * CNP[9] + 7 * CNP[10] + 9 * CNP[11]
+                        C = 2 * CNP[0] + 7 * CNP[1] + 9 * CNP[2] + 1 * CNP[3] + 4 * CNP[4] + 6 * CNP[5]\
+                            + 3 * CNP[6] + 5 * CNP[7] + 8 * CNP[8] + 2 * CNP[9] + 7 * CNP[10] + 9 * CNP[11]
+
                         rest = C % 11
                         if (CNP[12] == 1) and (rest == 10):
                             print("CNP-ul este valid.")
@@ -55,7 +65,6 @@ try:
                     print("Codul zilei este gresit.")
             else:
                 print("Codul lunii este gresit.")
-
         else:
             print("CNP-ul introdus nu are exact 13 cifre.")
     else:
