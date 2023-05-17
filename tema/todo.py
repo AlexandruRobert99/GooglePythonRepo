@@ -35,43 +35,45 @@ def afiseaza_taskuri():
     print('\n'.join(' '.join(map(str, sl)) for sl in res))
 
 
-
-
 def adauga_categorie():
     categorii = citeste_categorii()
-    with open('categorii.txt', 'r+') as file:
-        categorii = file.read().splitlines()
-        categorie_noua = input('Introdu noua categorie:')
-        if categorie_noua in categorii:
-            print('Categoria pe care vrei sa o adaugi exista deja.')
-            print(f'Categoriile existente sunt: {categorii}.')
-            return
+    categorie_noua = input('Introdu noua categorie:')
+    if categorie_noua in categorii:
+        print('Categoria pe care vrei sa o adaugi exista deja.')
+        print(f'Categoriile existente sunt: {categorii}.')
+        return
+
+    with open('categorii.txt', 'a') as file:
         file.write(f"{categorie_noua}\n")
+
     print(f'A fost adaugata categoria {categorie_noua}.')
+
 
 def adauga_task():
     with open('categorii.txt', 'r') as file1:
         categorii = file1.read().splitlines()
     with open('taskuri.txt', 'r+') as file:
-        taskuri = input('Introdu detaliile taskului separate prin virgula in urmatorul format: [nume task], [ZZ.LL.AAAA HH:MM], [nume persoana responsabila], [categorie]: ')
+        taskuri = input('Introdu task-ul in formatul "[nume task], [DD.MM.YYYY HH:MM] [nume persoana responsabila] [categorie]: ')
         taskuri_check = taskuri.split(",")
+        read_taskuri = file.read().splitlines()
         if len(taskuri_check) != 4:
-            print('Formatul introducerii task-ului este incorect. Asigurati-va ca utilizați formatul DD.MM.YYYY HH:MM.')
+            print('Formatul task-ului introdus este incorect.')
             return
         try:
             datetime.strptime(taskuri_check[1].strip(), '%d.%m.%Y %H:%M')
         except ValueError:
-            print('Data introdusa nu respecta formatul corect. Asigurati-va că utilizati formatul DD.MM.YYYY HH:MM.')
+            print('Data introdusă nu respectă formatul corect. Asigură-te că utilizezi formatul DD.MM.YYYY HH:MM.')
             return
-        if taskuri_check[3] not in categorii:
-            print('Categoria pe care incerci să o adaugi nu exista.')
+        if taskuri_check[3].strip() not in categorii:
+            print('Categoria pe care încerci să o adaugi nu există.')
             print(f'Categoriile disponibile sunt: {categorii}')
             return
-        if taskuri_check[0] in file.read().splitlines():
-            print('Task-ul pe care vrei sa-l adaugi exista deja.')
+        if taskuri_check[0] in read_taskuri:
+            print('Task-ul pe care vrei să-l adaugi există deja.')
             return
         file.write(f"{taskuri}\n")
-    print(f'A fost adaugat task-ul: {taskuri}.')
+    print(f'A fost adăugat task-ul: {taskuri}.')
+
 
 
 

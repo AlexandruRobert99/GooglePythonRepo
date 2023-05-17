@@ -4,3 +4,4 @@ munca
 cadouri
 sport
 test
+hobby
